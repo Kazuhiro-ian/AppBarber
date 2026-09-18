@@ -1,0 +1,26 @@
+# Perfil usado pelos testes: banco em memória, sem dependência de PostgreSQL.
+spring:
+  datasource:
+    url: jdbc:h2:mem:appbarber;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ''
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      # Aqui o schema é gerado pelo Hibernate; em produção quem manda é o Flyway.
+      ddl-auto: create-drop
+  flyway:
+    enabled: false
+
+app:
+  jwt:
+    secret: chave-de-teste-appbarber-com-mais-de-32-caracteres
+    expiracao-ms: 3600000
+    emissor: appbarber-test
+  cors:
+    allowed-origins: http://localhost:5173
+
+logging:
+  level:
+    root: WARN
+    com.barber.app: INFO

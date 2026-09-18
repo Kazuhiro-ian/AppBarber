@@ -1,0 +1,253 @@
+/* =====================================================================
+   Estrutura de navegação.
+   Mobile  : topbar enxuta + bottom navigation fixa.
+   Desktop : sidebar fixa à esquerda + topbar com nome e perfil.
+   ===================================================================== */
+
+.app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--cor-fundo);
+}
+
+/* ------------------------------------------------------------- topbar */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: var(--altura-topbar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 16px;
+  background: rgba(23, 26, 33, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.topbar__marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.topbar__logo {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--raio-sm);
+  background: linear-gradient(135deg, var(--cor-marca), var(--cor-marca-escura));
+  color: #14161b;
+  font-weight: 800;
+}
+
+.topbar__acoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar__usuario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px 5px 5px;
+  border-radius: var(--raio-full);
+  background: var(--cor-superficie-2);
+  border: 1px solid var(--cor-borda);
+}
+
+.topbar__usuario-nome {
+  font-size: 0.86rem;
+  line-height: 1.15;
+  font-weight: 600;
+}
+
+.topbar__usuario-perfil {
+  font-size: 0.7rem;
+  color: var(--cor-texto-fraco);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--raio-full);
+  object-fit: cover;
+  display: grid;
+  place-items: center;
+  background: var(--cor-marca-suave);
+  color: var(--cor-marca-clara);
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.avatar--grande {
+  width: 72px;
+  height: 72px;
+  font-size: 1.6rem;
+}
+
+/* -------------------------------------------------------------- corpo */
+.app__corpo {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.conteudo {
+  flex: 1;
+  min-width: 0;
+  padding: 18px 16px calc(var(--altura-bottomnav) + 24px);
+}
+
+/* ------------------------------------------------------------ sidebar */
+.sidebar {
+  display: none;
+  width: var(--largura-sidebar);
+  flex-shrink: 0;
+  border-right: 1px solid var(--cor-borda);
+  background: var(--cor-superficie);
+  padding: 18px 12px;
+  position: sticky;
+  top: var(--altura-topbar);
+  height: calc(100vh - var(--altura-topbar));
+  overflow-y: auto;
+}
+
+.sidebar__grupo + .sidebar__grupo {
+  margin-top: 20px;
+}
+
+.sidebar__titulo {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--cor-texto-fraco);
+  padding: 0 10px;
+  margin-bottom: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--raio-sm);
+  color: var(--cor-texto-suave);
+  font-size: 0.92rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-item:hover {
+  background: var(--cor-superficie-2);
+  color: var(--cor-texto);
+}
+
+.nav-item.ativo {
+  background: var(--cor-marca-suave);
+  color: var(--cor-marca-clara);
+  font-weight: 600;
+}
+
+.nav-item__icone {
+  width: 20px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* ------------------------------------------------- bottom navigation */
+.bottomnav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  height: var(--altura-bottomnav);
+  display: flex;
+  align-items: stretch;
+  background: rgba(23, 26, 33, 0.97);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--cor-borda);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottomnav__item {
+  flex: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: 0.68rem;
+  color: var(--cor-texto-fraco);
+  transition: color 0.15s ease;
+}
+
+.bottomnav__item.ativo {
+  color: var(--cor-marca);
+}
+
+.bottomnav__icone {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+/* ------------------------------------------------ menu "mais" (mobile) */
+.menu-mais {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(8, 10, 14, 0.6);
+  display: flex;
+  align-items: flex-end;
+}
+
+.menu-mais__painel {
+  width: 100%;
+  background: var(--cor-superficie);
+  border-top-left-radius: var(--raio-lg);
+  border-top-right-radius: var(--raio-lg);
+  border-top: 1px solid var(--cor-borda);
+  padding: 14px 12px calc(var(--altura-bottomnav) + 14px);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.menu-mais__alca {
+  width: 42px;
+  height: 4px;
+  border-radius: var(--raio-full);
+  background: var(--cor-borda-forte);
+  margin: 0 auto 14px;
+}
+
+/* -------------------------------------------------------- breakpoints */
+@media (min-width: 1024px) {
+  .sidebar {
+    display: block;
+  }
+
+  .bottomnav {
+    display: none;
+  }
+
+  .conteudo {
+    padding: 24px 28px 40px;
+    max-width: 1220px;
+  }
+
+  .topbar {
+    padding: 0 28px;
+  }
+}

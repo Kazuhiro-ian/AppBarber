@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: appbarber-db
+    environment:
+      POSTGRES_DB: ${BARBER_POSTGRES_DB}
+      POSTGRES_USER: ${BARBER_DB_USERNAME}
+      POSTGRES_PASSWORD: ${BARBER_DB_PASSWORD}
+    ports:
+      - '55432:5432'
+    volumes:
+      - appbarber-dados:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${BARBER_DB_USERNAME} -d ${BARBER_POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      - BARBER_DB_URL=${BARBER_DB_URL}
+      - BARBER_DB_USERNAME=${BARBER_DB_USERNAME}
+      - BARBER_DB_PASSWORD=${BARBER_DB_PASSWORD}
+      - BARBER_JWT_SECRET=${BARBER_JWT_SECRET}
+      - BARBER_CORS_ORIGINS=${BARBER_CORS_ORIGINS}
+      - BARBER_SERVER_PORT=${BARBER_SERVER_PORT}
+    ports:
+      - '${BARBER_SERVER_PORT}:${BARBER_SERVER_PORT}'
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      - VITE_PROXY_TARGET=http://backend:${BARBER_SERVER_PORT}
+    ports:
+      - '${BARBER_FRONTEND_PORT}:5173'
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  appbarber-dados:
